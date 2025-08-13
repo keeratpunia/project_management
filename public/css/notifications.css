@@ -1,0 +1,66 @@
+/* Reuse variables, base, buttons, etc. */
+@import url("/css/main.css");
+
+/* Layout */
+body { display: block; padding: 28px 20px; }
+.container { max-width: 900px; margin: 0 auto; }
+
+.breadcrumb { margin-bottom: 12px; }
+.breadcrumb a { color: #e6e6e6; text-decoration: underline; }
+.breadcrumb a:hover { color: #cfcfcf; }
+
+/* Header actions */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.header h1 { font-size: 22px; font-weight: 700; }
+
+/* List container */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 0;             /* list items will have their own padding */
+  overflow: hidden;
+}
+
+/* List */
+.note-list { list-style: none; margin: 0; padding: 0; }
+.note-item {
+  display: grid;
+  grid-template-columns: 1fr auto;   /* message | actions */
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.note-item:last-child { border-bottom: none; }
+
+/* Unread emphasis (greyscale only) */
+.note-item.unread { background: #161616; }
+.note-item.unread .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #f2f2f2; display: inline-block; margin-right: 8px;
+}
+
+/* Message + meta */
+.message { color: var(--text); }
+.meta { color: var(--muted); font-size: .9rem; }
+
+.actions { display: flex; align-items: center; gap: 8px; }
+.inline { display: inline; }
+
+.btn, .btn-link { padding: 8px 12px; border-radius: 8px; font-weight: 700; }
+.btn-link { background: transparent; border: 1px solid var(--line); color: #e6e6e6; }
+.btn-link:hover { background: #1a1a1a; }
+
+/* Empty state */
+.empty {
+  padding: 18px;
+  color: var(--muted);
+  text-align: center;
+}

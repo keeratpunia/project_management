@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Project</title>
+
+  <!-- same font for consistency -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- page CSS (imports /css/auth.css inside) -->
+  <link rel="stylesheet" href="/css/add.css">
+</head>
+<body>
+  <div class="page-width">
+    <p><a href="/">← Back to Projects</a></p>
+    <h1>Add New Project</h1>
+
+    <form method="POST" action="/add">
+      <div class="row">
+        <label>Project ID (e.g., Pro1001)</label><br/>
+        <input name="projectId" placeholder="Pro1001" required
+               pattern="^[A-Za-z]{3}\d{4,}$" title="Like Pro1001"/>
+      </div>
+
+      <div class="row">
+        <label>Project Name</label><br/>
+        <input name="ProjectName" placeholder="Website Revamp" required />
+      </div>
+
+      <div class="row">
+        <label>Project Description</label><br/>
+        <textarea name="ProjectDescription" rows="3" placeholder="Short summary..."></textarea>
+      </div>
+
+      <div class="row">
+        <label>Start Date</label><br/>
+        <input type="date" name="StartDate" />
+      </div>
+
+      <div class="row">
+        <label>Project End Date</label><br/>
+        <input type="date" name="ProjectEndDate" />
+      </div>
+
+      <% if (users && users.length) { %>
+        <div class="row">
+          <label>Assign to user</label><br/>
+          <select name="ownerId" required>
+            <% users.forEach(function(u){ %>
+              <option value="<%= u._id %>"><%= u.username %></option>
+            <% }) %>
+          </select>
+        </div>
+      <% } %>
+
+      <input type="hidden" name="NoOfModules" value="0" />
+
+      <div class="row">
+        <button type="submit">Save Project</button>
+      </div>
+    </form>
+
+    <p class="row">Tip: After saving, open the project’s <em>Edit</em> page to add module names and track progress.</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+
+  <!-- Font + CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <% if (!currentUser) { %>
+    <div class="container">
+      <div class="topbar">
+        <div class="brand-bar">
+          <div class="logo"></div>
+          <div class="title">Project Manager</div>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="padding:18px;">
+        <h1 style="margin-bottom:10px;">Welcome</h1>
+        <p class="mt10"><a class="link" href="/login">I'm a user / admin — log in</a></p>
+        <p class="mt10"><a class="link" href="/register">Create an account</a></p>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="container">
+      <!-- top bar -->
+      <div class="topbar">
+        <div class="brand-bar">
+          <div class="logo"></div>
+          <div class="title">Project Manager</div>
+        </div>
+        <div class="userbar">
+          <span>Logged in as <strong><%= currentUser.username %></strong> (<%= currentUser.role %>)</span>
+          <a class="link" href="/notifications">Notifications <span class="badge"><%= typeof unreadCount !== 'undefined' ? unreadCount : 0 %></span></a>
+          <form class="inline-form" method="POST" action="/logout">
+            <button class="btn btn-link">Logout</button>
+          </form>
+        </div>
+      </div>
+
+      <% if (flash) { %>
+        <div class="flash"><%= flash %></div>
+      <% } %>
+
+      <!-- section header -->
+      <div class="section">
+        <h1>All Projects</h1>
+        <a class="btn" href="/add">+ Add New Project</a>
+      </div>
+
+      <!-- table -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Project ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Modules</th>
+              <% if (currentUser && currentUser.role === 'admin') { %>
+                <th>Owner</th>
+              <% } %>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%
+              const isAdmin = currentUser && currentUser.role === 'admin';
+              const colspan = isAdmin ? 8 : 7; 
+            %>
+
+            <% if (!projects || projects.length === 0) { %>
+              <tr>
+                <td class="empty" colspan="<%= colspan %>">No projects yet.</td>
+              </tr>
+            <% } else { %>
+              <% projects.forEach(function(p){ %>
+                <tr>
+                  <td><%= p.projectId %></td>
+                  <td><%= p.ProjectName %></td>
+                  <td><%= p.ProjectDescription %></td>
+                  <td><%= p.StartDate ? p.StartDate.toISOString().slice(0,10) : '' %></td>
+                  <td><%= p.ProjectEndDate ? p.ProjectEndDate.toISOString().slice(0,10) : '' %></td>
+                  <td><%= p.NoOfModules %></td>
+                  <% if (isAdmin) { %>
+                    <td><%= p.owner ? p.owner.username : '(no owner)' %></td>
+                  <% } %>
+                  <td class="actions">
+                    <a class="btn btn-link" href="/edit/<%= p._id %>">Edit</a>
+                    <form class="inline-form" method="POST" action="/delete/<%= p._id %>" onsubmit="return confirm('Delete this project?')">
+                      <button class="btn btn-link">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% } %>
+</body>
+</html>

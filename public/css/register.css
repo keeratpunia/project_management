@@ -1,0 +1,27 @@
+/* Pull in the same base styles as login */
+@import url("/css/auth.css");
+
+/* Page-specific tweaks (optional) */
+.card h2 { margin-bottom: 10px; }
+
+/* Select styling to match inputs */
+select {
+  width: 100%;
+  padding: 12px 13px;
+  background: var(--input);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  outline: none;
+  transition: box-shadow .15s, border-color .15s;
+  appearance: none; /* cleaner look */
+}
+select:focus {
+  border-color: #e6e6e6;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.08);
+}
+
+/* Make the “Sign Up” primary and the link secondary */
+.actions { justify-content: space-between; }
+.actions .link { text-align: right; flex: 1; }
+.actions button { flex: 1; }

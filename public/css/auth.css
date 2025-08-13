@@ -1,0 +1,132 @@
+/* ============ Reset & base ============ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%; 
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+  background: #0f0f0f;              /* deep black */
+  color: #f2f2f2;                   /* near-white */
+  display: flex;
+  padding: 24px;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+/* Greyscale palette (no colors) */
+:root{
+  --bg: #0f0f0f;
+  --panel: #151515;                 /* card */
+  --muted: #b8b8b8;                 /* secondary text */
+  --line: #2a2a2a;                  /* borders */
+  --input: #111111;                 /* input bg */
+  --text: #f2f2f2;
+  --text-weak: #d8d8d8;
+  --shadow: 0 12px 28px rgba(0,0,0,.6);
+  --r: 14px;                        /* radius */
+}
+
+/* ============ Layout wrappers ============ */
+.auth-wrap {
+  width: min(420px, 94vw);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.brand-logo {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, #ffffff 0, #9a9a9a 100%);  /* greys only */
+  box-shadow: 0 6px 18px rgba(255,255,255,.06);
+}
+.brand h1 { font-size: 22px; font-weight: 700; }
+
+/* ============ Card ============ */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 26px 22px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(4px);
+}
+.card h2 { font-size: 19px; font-weight: 600; margin-bottom: 6px; }
+.muted { color: var(--muted); font-size: .95rem; margin-bottom: 12px; }
+
+/* ============ Form ============ */
+.form-row { margin: 12px 0; }
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-weak);
+  font-size: .9rem;
+}
+input {
+  width: 100%;
+  padding: 12px 13px;
+  background: var(--input);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  outline: none;
+  transition: box-shadow .15s, border-color .15s;
+}
+input::placeholder { color: #8e8e8e; }
+input:focus {
+  border-color: #e6e6e6;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.08);
+}
+
+/* ============ Actions ============ */
+.actions {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+}
+button {
+  appearance: none; border: 0; cursor: pointer;
+  padding: 12px 16px;
+  background: #f2f2f2;           /* white button on dark UI */
+  color: #0f0f0f;
+  font-weight: 700;
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.5);
+  transition: transform .05s ease, filter .2s ease, background .2s;
+  width: 50%;
+}
+button:hover { filter: brightness(0.95); }
+button:active { transform: translateY(1px); }
+
+.link {
+  color: #e6e6e6;
+  text-decoration: underline;
+  font-weight: 600;
+}
+.link:hover { color: #cfcfcf; }
+
+/* ============ Error (greyscale only) ============ */
+.error {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  background: #1b1b1b;
+  color: #efefef;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  font-size: .92rem;
+}
+
+/* ============ Footer ============ */
+.footer {
+  margin-top: 14px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .9rem;
+}

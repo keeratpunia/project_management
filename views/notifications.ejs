@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notifications</title>
+
+  <!-- Font + page CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/notifications.css">
+</head>
+<body>
+  <div class="container">
+    <p class="breadcrumb"><a href="/">← Back</a></p>
+
+    <div class="header">
+      <h1>Notifications</h1>
+      <form class="inline" method="POST" action="/notifications/read-all">
+        <button class="btn btn-link" type="submit">Mark all as read</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <% if (!notes || notes.length === 0) { %>
+        <div class="empty">No notifications.</div>
+      <% } else { %>
+        <ul class="note-list">
+          <% notes.forEach(function(n){ %>
+            <li class="note-item <%= n.read ? '' : 'unread' %>">
+              <div>
+                <div class="message">
+                  <% if (!n.read) { %><span class="dot"></span><% } %>
+                  <%= n.message %>
+                </div>
+                <div class="meta"><%= new Date(n.createdAt).toLocaleString() %></div>
+              </div>
+
+              <div class="actions">
+                <% if (!n.read) { %>
+                  <form class="inline" method="POST" action="/notifications/read/<%= n._id %>">
+                    <button class="btn btn-link" type="submit">Mark read</button>
+                  </form>
+                <% } %>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Project</title>
+
+  <!-- font + page css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/edit.css">
+</head>
+<body>
+  <div class="container">
+    <p class="breadcrumb"><a href="/">← Back to Projects</a></p>
+
+    <div class="edit-grid">
+      <!-- Left: Details -->
+      <div class="card">
+        <h1>Edit Project: <%= project.projectId %></h1>
+        <p class="muted">
+          <% if (project.owner) { %>
+            Owner: <strong><%= project.owner.username %></strong>
+          <% } else { %>
+            Owner: <em>(no owner)</em>
+          <% } %>
+        </p>
+
+        <form method="POST" action="/edit/<%= project._id %>">
+          <div class="row">
+            <label>Project Name</label>
+            <input name="ProjectName" value="<%= project.ProjectName %>" required>
+          </div>
+
+          <div class="row">
+            <label>Description</label>
+            <textarea name="ProjectDescription" rows="3"><%= project.ProjectDescription || '' %></textarea>
+          </div>
+
+          <div class="row">
+            <label>Start Date</label>
+            <input type="date" name="StartDate" value="<%= project.StartDate ? project.StartDate.toISOString().slice(0,10) : '' %>">
+          </div>
+
+          <div class="row">
+            <label>End Date</label>
+            <input type="date" name="ProjectEndDate" value="<%= project.ProjectEndDate ? project.ProjectEndDate.toISOString().slice(0,10) : '' %>">
+          </div>
+
+          <!-- submit computed count (readonly) to keep server route happy -->
+          <input type="hidden" name="NoOfModules" value="<%= total %>">
+
+          <% if (currentUser && currentUser.role === 'admin') { %>
+            <div class="row">
+              <label>Owner</label>
+              <select name="ownerId">
+                <option value="">(no change)</option>
+                <% (users || []).forEach(function(u){ %>
+                  <option value="<%= u._id %>" <%= project.owner && String(project.owner._id) === String(u._id) ? 'selected' : '' %>>
+                    <%= u.username %>
+                  </option>
+                <% }) %>
+              </select>
+            </div>
+          <% } %>
+
+          <div class="actions">
+            <button class="btn" type="submit">Save</button>
+            <a class="link" href="/">Cancel</a>
+          </div>
+        </form>
+
+        <hr class="row" style="border:0; border-top:1px solid var(--line);">
+
+        <!-- Progress -->
+        <h2>Progress</h2>
+        <div class="progress-wrap row">
+          <div class="progress"><span style="width: <%= pct %>%;"></span></div>
+          <div class="progress-text"><strong><%= done %></strong>/<%= total %> (<%= pct %>%)</div>
+        </div>
+      </div>
+
+      <!-- Right: Modules -->
+      <div class="card">
+        <h2>Modules</h2>
+
+        <% if (!project.modules || project.modules.length === 0) { %>
+          <p class="muted">No modules yet.</p>
+        <% } else { %>
+          <ul class="modules">
+            <% project.modules.forEach(function(m, idx){ %>
+              <li class="module-item">
+                <!-- toggle done -->
+                <form class="inline" method="POST" action="/projects/<%= project._id %>/modules/<%= idx %>/toggle">
+                  <button class="toggle-btn" type="submit" title="Toggle done"><%= m && m.done ? '✔' : '○' %></button>
+                </form>
+
+                <div class="module-title"><%= (m && m.name) ? m.name : '(unnamed module)' %></div>
+
+                <div class="module-meta">
+                  <% if (m && m.assignedBy) { %>
+                    — assigned by <%= m.assignedBy.username || m.assignedBy %>
+                  <% } %>
+                  <% if (m && m.assignedAt) { %>
+                    — <%= new Date(m.assignedAt).toLocaleString() %>
+                  <% } %>
+                </div>
+
+                <% 
+                  var canAct = currentUser && (
+                    currentUser.role === 'admin' ||
+                    (project.owner && String(project.owner._id) === String(currentUser._id))
+                  );
+                %>
+                <% if (canAct) { %>
+                  <form class="inline" method="POST" action="/projects/<%= project._id %>/modules/<%= idx %>/delete" onsubmit="return confirm('Delete this module?')">
+                    <button class="delete-btn" type="submit">Delete</button>
+                  </form>
+                <% } %>
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+
+        <!-- add module -->
+        <form class="add-module" method="POST" action="/projects/<%= project._id %>/modules/add">
+          <input name="name" placeholder="New module name" required>
+          <button class="btn" type="submit">Add Module</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register</title>
+
+  <!-- Same font as login -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Page CSS (imports auth.css inside) -->
+  <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+  <div class="auth-wrap">
+
+    <div class="brand">
+      <div class="brand-logo"></div>
+      <h1>Project Manager</h1>
+    </div>
+
+    <div class="card">
+      <h2>Create your account</h2>
+      <p class="muted">Sign up to start managing projects and modules.</p>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="error"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/register">
+        <div class="form-row">
+          <label for="username">Username</label>
+          <input id="username" name="username" autocomplete="username" required />
+        </div>
+
+        <div class="form-row">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" required />
+        </div>
+
+        <div class="form-row">
+          <label for="role">Role</label>
+          <select id="role" name="role">
+            <option value="user" selected>User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Sign Up</button>
+          <a class="link" href="/login">Log in</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="footer">
+      <span>By signing up you agree to the terms.</span>
+    </div>
+  </div>
+</body>
+</html>

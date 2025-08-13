@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/auth.css"><!-- served from /public/css/auth.css -->
+</head>
+<body>
+  <div class="auth-wrap">
+
+    <div class="brand">
+      <div class="brand-logo"></div>
+      <h1>Project Manager</h1>
+    </div>
+
+    <div class="card">
+      <h2>Welcome back</h2>
+      <p class="muted">Sign in to manage your projects and modules.</p>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="error"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/login">
+        <div class="form-row">
+          <label for="username">Username</label>
+          <input id="username" name="username" autocomplete="username" required />
+        </div>
+
+        <div class="form-row">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+
+        <div class="actions">
+          <button type="submit">Log in</button>
+          <a class="link" href="/register">Create an account</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="footer">
+      <span>copyright here</span>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="/public/css/auth.css">  
+</head>
+<body>
+  <h1>Login</h1>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <p><%= error %></p>
+  <% } %>
+
+  <form method="POST" action="/login">
+    <div>
+      <label>Username</label>
+      <input name="username" required />
+    </div>
+
+    <div>
+      <label>Password</label>
+      <input name="password" type="password" required />
+    </div>
+
+    <button type="submit">Log in</button>
+  </form>
+
+  <p>New here? <a href="/register">Create an account</a></p>
+</body>
+</html> -->
