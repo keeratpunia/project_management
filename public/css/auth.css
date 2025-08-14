@@ -42,7 +42,9 @@ body {
 }
 .brand-logo {
   width: 34px; height: 34px; border-radius: 10px;
-  background: linear-gradient(135deg, #ffffff 0, #9a9a9a 100%);  /* greys only */
+  background-size: cover;
+  background-position: center;
+  background: linear-gradient(135deg, #ffffff 0, #9a9a9a 100%);  
   box-shadow: 0 6px 18px rgba(255,255,255,.06);
 }
 .brand h1 { font-size: 22px; font-weight: 700; }
